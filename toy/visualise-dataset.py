@@ -29,7 +29,7 @@ params = [
 n = 0
 plt.figure(figsize=(4, 11.5), dpi=200)
 for coord, noise in params:
-    dataset = data.ToyTask(10, coord, noise, 0, 0)
+    dataset = data.ToyTask(10, coord, noise)
 
     a, b, c = next(iter(dataset))
 

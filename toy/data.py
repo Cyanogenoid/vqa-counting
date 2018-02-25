@@ -7,7 +7,7 @@ class ToyTask(data.Dataset):
     """
     This toy task is intended to test the robustness of the approach, not so much to be "fair" to other baselines.
     """
-    def __init__(self, max_objects, coord, noise, threshold=None):
+    def __init__(self, max_objects, coord, noise):
         super().__init__()
         self.max_objects = max_objects
         self.max_proposals = self.max_objects
