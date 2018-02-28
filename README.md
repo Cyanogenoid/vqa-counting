@@ -1,5 +1,7 @@
 # Counting component for VQA
 
+![Overview of what the method accomplishes](cats.png)
+
 This is the official implementation of our ICLR 2018 paper [Learning to Count Objects in Natural Images for Visual Question Answering][0] in [PyTorch][1].
 The core module is fully contained in [`counting.py`][3].
 If you want to use the counting component, that is the only file that you need.
