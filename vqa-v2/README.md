@@ -6,7 +6,7 @@ The code is loosely based on [this implementation][0].
 ## Instructions
 
 - In the `data` directory, execute `./download.sh` to download VQA v2 [questions, answers, and bottom-up features][4].
-  - For experimenting, using 36 fixed proposals is faster. Uncomment the relevant lines in `download.sh` and change the paths in `config.py` accordingly. Don't forget to set `output_size` in there to 36 to actually get the speed-up.
+  - For experimenting, using 36 fixed proposals is faster, at the expense of a bit of accuracy. Uncomment the relevant lines in `download.sh` and change the paths in `config.py` accordingly. Don't forget to set `output_size` in there to 36 to actually get the speed-up.
 - Prepare the data by running
 ```
 python preprocess-images.py
