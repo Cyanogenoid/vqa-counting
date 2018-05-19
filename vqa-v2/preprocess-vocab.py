@@ -38,7 +38,7 @@ def main():
             ans = json.load(fd)
 
         questions += list(data.prepare_questions(qs))
-        answers += list(data.prepare_answers(an))
+        answers += list(data.prepare_answers(ans))
 
     question_vocab = extract_vocab(questions, start=1)
     answer_vocab = extract_vocab(answers, top_k=config.max_answers)
