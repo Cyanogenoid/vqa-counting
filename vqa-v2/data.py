@@ -16,6 +16,11 @@ import utils
 
 def get_loader(train=False, val=False, test=False):
     """ Returns a data loader for the desired split """
+    if train and val:
+        do_val_later = True
+        val = False
+    else:
+        do_val_later = False
     split = VQA(
         utils.path_for(train=train, val=val, test=test, question=True),
         utils.path_for(train=train, val=val, test=test, answer=True),
@@ -23,6 +28,16 @@ def get_loader(train=False, val=False, test=False):
         answerable_only=train,
         dummy_answers=test,
     )
+    if do_val_later:
+        val = True
+        train = False
+        split += VQA(
+            utils.path_for(train=train, val=val, test=test, question=True),
+            utils.path_for(train=train, val=val, test=test, answer=True),
+            config.preprocessed_trainval_path if not test else config.preprocessed_test_path,
+            answerable_only=val,
+            dummy_answers=test,
+        )
     loader = torch.utils.data.DataLoader(
         split,
         batch_size=config.batch_size,
