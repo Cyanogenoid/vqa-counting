@@ -2,6 +2,7 @@
 
 This directory contains code for training and evaluating a model using the counting component on the VQA v2 dataset.
 The code is loosely based on [this implementation][0].
+You can find additional resources for download, i.e. poster of the paper and pre-trained weights, in [this release](https://github.com/Cyanogenoid/vqa-counting/releases/tag/resources).
 
 ## Instructions
 
