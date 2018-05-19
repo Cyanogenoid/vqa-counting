@@ -26,16 +26,19 @@ def extract_vocab(iterable, top_k=None, start=0):
 
 
 def main():
-    questions = utils.path_for(train=True, question=True)
-    answers = utils.path_for(train=True, answer=True)
+    questions = []
+    answers = []
+    for train in [True, False]:
+        questions_path = utils.path_for(train=train, val=not train, question=True)
+        answers_path = utils.path_for(train=train, val=not train, answer=True)
 
-    with open(questions, 'r') as fd:
-        questions = json.load(fd)
-    with open(answers, 'r') as fd:
-        answers = json.load(fd)
+        with open(questions_path, 'r') as fd:
+            qs = json.load(fd)
+        with open(answers_path, 'r') as fd:
+            ans = json.load(fd)
 
-    questions = list(data.prepare_questions(questions))
-    answers = list(data.prepare_answers(answers))
+        questions += list(data.prepare_questions(qs))
+        answers += list(data.prepare_answers(an))
 
     question_vocab = extract_vocab(questions, start=1)
     answer_vocab = extract_vocab(answers, top_k=config.max_answers)
