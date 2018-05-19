@@ -106,13 +106,11 @@ def main():
     cudnn.benchmark = True
 
     if not args.eval_only:
-        train_loader = data.get_loader(train=True)
-    if not args.test:
-        val_loader = data.get_loader(val=True)
-    else:
+        train_loader = data.get_loader(train=True, val=True)
+    if args.test:
         val_loader = data.get_loader(test=True)
 
-    net = model.Net(val_loader.dataset.num_tokens).cuda()
+    net = model.Net(train_loader.dataset.num_tokens).cuda()
     optimizer = optim.Adam([p for p in net.parameters() if p.requires_grad], lr=config.initial_lr)
     scheduler = lr_scheduler.ExponentialLR(optimizer, 0.5**(1 / config.lr_halflife))
     if args.resume:
@@ -124,7 +122,6 @@ def main():
     for i in range(config.epochs):
         if not args.eval_only:
             run(net, train_loader, optimizer, scheduler, tracker, train=True, prefix='train', epoch=i)
-        r = run(net, val_loader, optimizer, scheduler, tracker, train=False, prefix='val', epoch=i, has_answers=not args.test)
 
         if not args.test:
             results = {
@@ -132,12 +129,7 @@ def main():
                 'tracker': tracker.to_dict(),
                 'config': config_as_dict,
                 'weights': net.state_dict(),
-                'eval': {
-                    'answers': r[0],
-                    'accuracies': r[1],
-                    'idx': r[2],
-                },
-                'vocab': val_loader.dataset.vocab,
+                'vocab': train_loader.dataset.vocab,
                 'src': src,
             }
             torch.save(results, target_name)
