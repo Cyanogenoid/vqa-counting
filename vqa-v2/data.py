@@ -14,6 +14,10 @@ import config
 import utils
 
 
+# monkey-patch ConcatDataset so that it delegates member access, e.g. VQA(...).num_tokens
+data.ConcatDataset.__getattr__ = lambda self, attr: getattr(self.datasets[0], attr)
+
+
 def get_loader(train=False, val=False, test=False):
     """ Returns a data loader for the desired split """
     if train and val:
