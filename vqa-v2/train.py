@@ -109,6 +109,7 @@ def main():
         train_loader = data.get_loader(train=True, val=True)
     if args.test:
         val_loader = data.get_loader(test=True)
+        train_loader = val_loader
 
     net = model.Net(train_loader.dataset.num_tokens).cuda()
     optimizer = optim.Adam([p for p in net.parameters() if p.requires_grad], lr=config.initial_lr)
@@ -122,6 +123,8 @@ def main():
     for i in range(config.epochs):
         if not args.eval_only:
             run(net, train_loader, optimizer, scheduler, tracker, train=True, prefix='train', epoch=i)
+        else:
+            r = run(net, val_loader, optimizer, scheduler, tracker, train=False, has_answers=False, prefix='test', epoch=i)
 
         if not args.test:
             results = {

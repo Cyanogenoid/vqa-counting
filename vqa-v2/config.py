@@ -9,7 +9,7 @@ vocabulary_path = 'vocab.json'  # path where the used vocabularies for question 
 task = 'OpenEnded'
 dataset = 'mscoco'
 
-test_split = 'test-dev2015'  # either 'test-dev2015' or 'test2015'
+test_split = 'test2015'  # either 'test-dev2015' or 'test2015'
 
 # preprocess config
 output_size = 100  # max number of object proposals per image
