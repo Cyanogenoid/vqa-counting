@@ -150,7 +150,7 @@ def main():
             answer_index_to_string = {a:  s for s, a in val_loader.dataset.answer_to_index.items()}
             results = []
             for answer, index in zip(r[0], r[2]):
-                answer = answer_index_to_string[answer]
+                answer = answer_index_to_string[answer.item()]
                 qid = val_loader.dataset.question_ids[index]
                 entry = {
                     'question_id': qid,
