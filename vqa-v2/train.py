@@ -102,6 +102,10 @@ def main():
     if not args.test:
         # target_name won't be used in test mode
         print('will save to {}'.format(target_name))
+    if args.resume:
+        logs = torch.load(' '.join(args.resume))
+        # hacky way to tell the VQA classes that they should use the vocab without passing more params around
+        data.preloaded_vocab = logs['vocab']
 
     cudnn.benchmark = True
 
@@ -116,7 +120,7 @@ def main():
     optimizer = optim.Adam([p for p in net.parameters() if p.requires_grad], lr=config.initial_lr)
     scheduler = lr_scheduler.ExponentialLR(optimizer, 0.5**(1 / config.lr_halflife))
     if args.resume:
-        net.load_state_dict(torch.load(' '.join(args.resume))['weights'])
+        net.load_state_dict(logs['weights'])
 
     tracker = utils.Tracker()
     config_as_dict = {k: v for k, v in vars(config).items() if not k.startswith('__')}

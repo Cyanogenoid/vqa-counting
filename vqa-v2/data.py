@@ -14,6 +14,9 @@ import config
 import utils
 
 
+preloaded_vocab = None
+
+
 def get_loader(train=False, val=False, test=False):
     """ Returns a data loader for the desired split """
     split = VQA(
@@ -48,8 +51,11 @@ class VQA(data.Dataset):
             questions_json = json.load(fd)
         with open(answers_path, 'r') as fd:
             answers_json = json.load(fd)
-        with open(config.vocabulary_path, 'r') as fd:
-            vocab_json = json.load(fd)
+        if preloaded_vocab:
+            vocab_json = preloaded_vocab
+        else:
+            with open(config.vocabulary_path, 'r') as fd:
+                vocab_json = json.load(fd)
 
         self.question_ids = [q['question_id'] for q in questions_json['questions']]
 
