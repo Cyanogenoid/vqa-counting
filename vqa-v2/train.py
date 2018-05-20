@@ -93,7 +93,7 @@ def main():
     if args.test:
         args.eval_only = True
     src = open('model.py').read()
-    if len(sys.argv) > 1:
+    if args.name:
         name = ' '.join(args.name)
     else:
         from datetime import datetime
