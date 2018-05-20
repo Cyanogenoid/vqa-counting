@@ -2,6 +2,7 @@
 
 This directory contains code for training and evaluating a model using the counting component on the VQA v2 dataset.
 The code is loosely based on [this implementation][0].
+You can find additional resources for download, i.e. poster of the paper and pre-trained weights, in [this release](https://github.com/Cyanogenoid/vqa-counting/releases/tag/resources).
 
 ## Instructions
 
@@ -41,9 +42,9 @@ to create the feature database for the test split, then `train.py` with `--test`
   - `--resume <path to .pth log>` starts the training procedure with the weights initialised from the weights stored in the given log file.
   - `--eval` does not train a model, but only evaluates on the validation split. Probably only useful with `--resume`.
   - `--test` does the same as `--eval`, but uses the test split specified in `config.py` instead and outputs a `results.json` file ready to be uploaded to the test server. Also probably only useful with `--resume`.
-- Training on both the `train` and `val` splits for evaluation on the test server is *not* supported in this.
-I recommend creating a new branch, modifying the data loader in `data.py` to concatenate the train and validation split `Dataset`s, and changing `train.py` to not run validation.
-You probably also want to change `preprocess-vocab` to use words from both splits for the vocabularies.
+- Training on both the `train` and `val` splits for evaluation on the test server is now supported in this.
+Switch to the trainval branch of this repository, run `preprocess-vocab.py` to have the vocabulary depend on training and validation data and train a model with `train.py`.
+Evaluation on test-dev and test works as before with `train.py`.
 - The baseline model is obtained by commenting out the line in the classifier that merges the count features back in.
 The NMS baseline model is obtained by copying the [NMS implementation from here][1] into this directory and [building it][4], removing the `forward` function from the `Net` class in `model.py` and putting [these two functions][2] there instead.
 It is probably a good idea to do these in different branches so that you can switch between the different models easily; that is what I am doing at least.

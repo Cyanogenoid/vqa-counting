@@ -93,7 +93,7 @@ def main():
     if args.test:
         args.eval_only = True
     src = open('model.py').read()
-    if len(sys.argv) > 1:
+    if args.name:
         name = ' '.join(args.name)
     else:
         from datetime import datetime
@@ -102,6 +102,10 @@ def main():
     if not args.test:
         # target_name won't be used in test mode
         print('will save to {}'.format(target_name))
+    if args.resume:
+        logs = torch.load(' '.join(args.resume))
+        # hacky way to tell the VQA classes that they should use the vocab without passing more params around
+        data.preloaded_vocab = logs['vocab']
 
     cudnn.benchmark = True
 
@@ -115,7 +119,7 @@ def main():
     optimizer = optim.Adam([p for p in net.parameters() if p.requires_grad], lr=config.initial_lr)
     scheduler = lr_scheduler.ExponentialLR(optimizer, 0.5**(1 / config.lr_halflife))
     if args.resume:
-        net.load_state_dict(torch.load(' '.join(args.resume))['weights'])
+        net.load_state_dict(logs['weights'])
 
     tracker = utils.Tracker()
     config_as_dict = {k: v for k, v in vars(config).items() if not k.startswith('__')}
@@ -141,7 +145,7 @@ def main():
             answer_index_to_string = {a:  s for s, a in val_loader.dataset.answer_to_index.items()}
             results = []
             for answer, index in zip(r[0], r[2]):
-                answer = answer_index_to_string[answer]
+                answer = answer_index_to_string[answer.item()]
                 qid = val_loader.dataset.question_ids[index]
                 entry = {
                     'question_id': qid,
