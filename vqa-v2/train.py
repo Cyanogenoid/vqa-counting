@@ -116,7 +116,12 @@ def main():
         train_loader = val_loader
 
     net = model.Net(train_loader.dataset.num_tokens).cuda()
-    optimizer = optim.Adam([p for p in net.parameters() if p.requires_grad], lr=config.initial_lr)
+    optimizer = optim.Adam([
+        {'params': net.text.parameters(), 'lr': config.initial_lr},
+        {'params': net.attention.parameters(), 'lr': config.initial_lr},
+        {'params': net.classifier.parameters(), 'lr': config.initial_lr},
+        {'params': net.counter.parameters(), 'lr': 2 * config.initial_lr},
+    ])
     scheduler = lr_scheduler.ExponentialLR(optimizer, 0.5**(1 / config.lr_halflife))
     if args.resume:
         net.load_state_dict(logs['weights'])
