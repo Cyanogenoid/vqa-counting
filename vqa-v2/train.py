@@ -67,7 +67,7 @@ def run(net, loader, optimizer, scheduler, tracker, train=False, has_answers=Tru
             idxs.append(idx.view(-1).clone())
 
         if has_answers:
-            loss_tracker.append(loss.data[0])
+            loss_tracker.append(loss.item())
             acc_tracker.append(acc.mean())
             fmt = '{:.4f}'.format
             loader.set_postfix(loss=fmt(loss_tracker.mean.value), acc=fmt(acc_tracker.mean.value))
