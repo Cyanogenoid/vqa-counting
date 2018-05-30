@@ -54,7 +54,7 @@ It is probably a good idea to do these in different branches so that you can swi
 This code was confirmed to run with the following environment:
 
 - Python 3.6.2
-  - torch 0.3.0
+  - torch 0.4.0
   - torchvision 0.2
   - h5py 2.7.0
   - tqdm 4.19.2
