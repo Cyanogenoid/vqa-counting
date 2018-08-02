@@ -2,7 +2,8 @@
 
 This directory contains code for training and evaluating a model using the counting component on the VQA v2 dataset.
 The code is loosely based on [this implementation][0].
-You can find additional resources for download, i.e. poster of the paper and pre-trained weights, in [this release](https://github.com/Cyanogenoid/vqa-counting/releases/tag/resources).
+You can find additional resources for download (i.e. poster of the paper, pre-trained weights, results.json file) in [this release](https://github.com/Cyanogenoid/vqa-counting/releases/tag/resources).
+The results have been [independently reproduced][5] by Shagun Sodhani and Vardaan Pahuja.
 
 ## Instructions
 
@@ -54,7 +55,7 @@ It is probably a good idea to do these in different branches so that you can swi
 This code was confirmed to run with the following environment:
 
 - Python 3.6.2
-  - torch 0.3.0
+  - torch 0.4.0
   - torchvision 0.2
   - h5py 2.7.0
   - tqdm 4.19.2
@@ -64,3 +65,4 @@ This code was confirmed to run with the following environment:
 [1]: https://github.com/ruotianluo/pytorch-faster-rcnn/tree/master/lib/nms
 [2]: https://gist.github.com/anonymous/2701c0964712e0a7fcce64ea752e391a
 [4]: https://github.com/ruotianluo/pytorch-faster-rcnn#installation
+[5]: https://arxiv.org/abs/1805.08174
